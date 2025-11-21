@@ -3,9 +3,6 @@
 ## Product Routes
 ### /api/products
 
- 
-get - no params
-
 post - no params - body {
     name :string,
     description:string,
@@ -15,14 +12,24 @@ post - no params - body {
     image:file,
     otherImage:file
 } - multipart/form-data
+ 
+get - no params - query{
+    populate: boolean
+}
 
-put = params id - body {
+get - params :id - query{
+    populate:boolean
+}
+
+put - params :id - body {
     name:string,
     description:string,
     price: number,
     category: ObjectId(category),
     inStock:boolean
 }
+
+delete - params :id
 
 ## Category Routes
 ### /api/categories
