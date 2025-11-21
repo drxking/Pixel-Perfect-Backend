@@ -1,8 +1,9 @@
 # Pixel-Perfect-Backend
 
-# Product Routes
-/api/products
+## Product Routes
+### /api/products
 
+ 
 get - no params
 
 post - no params - body {
@@ -23,8 +24,8 @@ put = params id - body {
     inStock:boolean
 }
 
-# Category Routes
-/api/categories
+## Category Routes
+### /api/categories
 
 get - no params - query {
     populate: boolean
