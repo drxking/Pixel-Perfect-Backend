@@ -2,7 +2,7 @@
 
 ## Product Routes
 ### /api/products
-
+```
 post - no params - body {
     name :string,
     description:string,
@@ -30,10 +30,10 @@ put - params :id - body {
 }
 
 delete - params :id
-
+```
 ## Category Routes
 ### /api/categories
-
+```
 get - no params - query {
     populate: boolean
 }
@@ -46,3 +46,4 @@ post - no params - body {
 get - params :id - query {
     populate: boolean
 }
+```
