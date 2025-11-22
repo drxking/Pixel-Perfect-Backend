@@ -47,3 +47,15 @@ get - params :id - query {
     populate: boolean
 }
 ```
+
+
+
+## Login Routes
+### /api/auth/login
+
+```
+post - no params - no query - body{
+    username: string,
+    password:string
+}
+ ```
