@@ -2,6 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
+const morgan = require('morgan');
+
 const productRouter = require('./routes/product.route');
 const categoryRouter = require('./routes/category.route');
 const cors = require('cors');
@@ -10,6 +12,8 @@ const port = process.env.PORT || 3000;
 dotenv.config({ quiet: true });
 
 const app = express();
+app.use(morgan('dev'));
+
 app.use(cors({
   origin: [`${process.env.CORS_ORIGIN}`],
   methods: ["POST", "GET", "PUT", "DELETE"],
