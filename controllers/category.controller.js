@@ -34,12 +34,44 @@ const getCategories = async (req, res) => {
 
 const getCategoryById = async (req, res) => {
     try {
-        let query = req.query.populate === 'true';
-        const category = query ? await Category.findById(req.params.id).populate('products') : await Category.findById(req.params.id);
-        if (!category) {
+        const populate = req.query.populate === 'true';
+        const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+        const limit = Math.max(parseInt(req.query.limit, 10) || 10, 1);
+
+        // If no population requested, just return the category
+        if (!populate) {
+            const category = await Category.findById(req.params.id);
+            if (!category) {
+                return res.status(404).json({ error: 'Category not found' });
+            }
+            return res.status(200).json(category);
+        }
+
+        // Load the category to get total products count (assumes Category has a products array of refs)
+        const categoryForCount = await Category.findById(req.params.id).select('products');
+        if (!categoryForCount) {
             return res.status(404).json({ error: 'Category not found' });
         }
-        res.status(200).json(category);
+        const totalProducts = Array.isArray(categoryForCount.products) ? categoryForCount.products.length : 0;
+        const totalPages = Math.max(Math.ceil(totalProducts / limit), 1);
+        const skip = (page - 1) * limit;
+
+        // Populate products with pagination
+        const populatedCategory = await Category.findById(req.params.id).populate({
+            path: 'products',
+            options: { skip, limit }
+        });
+
+        // Return category plus pagination metadata
+        return res.status(200).json({
+            ...populatedCategory.toObject(),
+            pagination: {
+                totalProducts,
+                totalPages,
+                page,
+                limit
+            }
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

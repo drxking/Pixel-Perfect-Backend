@@ -27,6 +27,8 @@ Router.get("/search", async (req, res) => {
     }
 });
 
+
+
 Router.post('/', postCategory);
 
 Router.get('/', getCategories);
