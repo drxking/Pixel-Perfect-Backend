@@ -28,19 +28,14 @@ const postProduct = async (req, res) => {
             return res.status(400).json({ error: 'Required fields: name and price' });
         }
 
-        if (typeof inStock === "string") {
-            inStock = inStock.trim().toLowerCase() === "yes";
-        } else if (typeof inStock === "boolean") {
-            inStock = inStock;
-        } else {
-            inStock = false; // default
-        }
+        
+        
         const productPayload = {
             name:name.trim(),
             description: description || '',
             price: Number(price),
             category: category || undefined, // Mongoose will cast to ObjectId if needed
-            inStock: inStock,
+            inStock,
             image: { url: '', public_id: '' },
             otherImages: [],
         };
